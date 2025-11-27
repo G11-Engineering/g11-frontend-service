@@ -8,15 +8,26 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <Box
-      component="footer"
-      style={{
-        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-        color: 'white',
-        marginTop: 'auto',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .footer-link {
+            transition: color 0.2s;
+          }
+          .footer-link:hover {
+            color: #ff8c00 !important;
+          }
+        `
+      }} />
+      <Box
+        component="footer"
+        style={{
+          background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+          color: 'white',
+          marginTop: 'auto',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        }}
+      >
       <Container size="xl" py="xl">
         <Stack gap="xl">
           {/* Main Footer Content */}
@@ -38,8 +49,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   c="dimmed"
-                  style={{ transition: 'color 0.2s' }}
-                  sx={{ '&:hover': { color: '#ff8c00' } }}
+                  className="footer-link"
                 >
                   <IconBrandGithub size={20} />
                 </Anchor>
@@ -48,8 +58,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   c="dimmed"
-                  style={{ transition: 'color 0.2s' }}
-                  sx={{ '&:hover': { color: '#ff8c00' } }}
+                  className="footer-link"
                 >
                   <IconBrandTwitter size={20} />
                 </Anchor>
@@ -58,16 +67,14 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   c="dimmed"
-                  style={{ transition: 'color 0.2s' }}
-                  sx={{ '&:hover': { color: '#ff8c00' } }}
+                  className="footer-link"
                 >
                   <IconBrandLinkedin size={20} />
                 </Anchor>
                 <Anchor
                   href="mailto:support@wso2.com"
                   c="dimmed"
-                  style={{ transition: 'color 0.2s' }}
-                  sx={{ '&:hover': { color: '#ff8c00' } }}
+                  className="footer-link"
                 >
                   <IconMail size={20} />
                 </Anchor>
@@ -84,8 +91,7 @@ export function Footer() {
                 href="/posts"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 All Posts
               </Anchor>
@@ -94,8 +100,7 @@ export function Footer() {
                 href="/categories"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Categories
               </Anchor>
@@ -104,8 +109,7 @@ export function Footer() {
                 href="/tags"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Tags
               </Anchor>
@@ -114,8 +118,7 @@ export function Footer() {
                 href="/posts/create"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Write Post
               </Anchor>
@@ -132,8 +135,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 WSO2 Website
               </Anchor>
@@ -143,8 +145,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Documentation
               </Anchor>
@@ -154,8 +155,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Support
               </Anchor>
@@ -164,8 +164,7 @@ export function Footer() {
                 href="/settings"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Settings
               </Anchor>
@@ -180,8 +179,7 @@ export function Footer() {
                 href="#"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Privacy Policy
               </Anchor>
@@ -189,8 +187,7 @@ export function Footer() {
                 href="#"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Terms of Service
               </Anchor>
@@ -198,8 +195,7 @@ export function Footer() {
                 href="#"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 Cookie Policy
               </Anchor>
@@ -207,8 +203,7 @@ export function Footer() {
                 href="#"
                 c="dimmed"
                 size="sm"
-                style={{ transition: 'color 0.2s' }}
-                sx={{ '&:hover': { color: '#ff8c00' } }}
+                className="footer-link"
               >
                 About
               </Anchor>
@@ -229,6 +224,7 @@ export function Footer() {
         </Stack>
       </Container>
     </Box>
+    </>
   );
 }
 
