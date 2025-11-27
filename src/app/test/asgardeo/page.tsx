@@ -1,8 +1,19 @@
 'use client';
 
-import { useAuthContext } from '@asgardeo/auth-react';
 import { Container, Title, Button, Text, Stack, Paper, Group } from '@mantine/core';
 import { useEffect, useState } from 'react';
+
+// Dynamically import to avoid SSR issues
+const useAuthContext = typeof window !== 'undefined' 
+  ? require('@asgardeo/auth-react').useAuthContext 
+  : () => ({
+      state: { isLoading: false },
+      signIn: async () => {},
+      signOut: async () => {},
+      getBasicUserInfo: async () => null,
+      getDecodedIDToken: async () => null,
+      isAuthenticated: async () => false,
+    });
 
 export default function AsgardeoBasicTest() {
     const { state, signIn, signOut, getBasicUserInfo, getDecodedIDToken, isAuthenticated } = useAuthContext();

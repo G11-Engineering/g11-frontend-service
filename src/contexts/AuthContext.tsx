@@ -3,8 +3,18 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
-import { useAuthContext as useAsgardeoAuth } from '@asgardeo/auth-react';
+import dynamic from 'next/dynamic';
 import { authApi } from '@/services/authApi';
+
+// Dynamically import Asgardeo hook to avoid SSR issues
+const useAsgardeoAuth = typeof window !== 'undefined' 
+  ? require('@asgardeo/auth-react').useAuthContext 
+  : () => ({
+      state: null,
+      signIn: async () => {},
+      signOut: async () => {},
+      getIDToken: async () => null,
+    });
 
 interface User {
   id: string;

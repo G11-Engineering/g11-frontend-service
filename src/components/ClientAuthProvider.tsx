@@ -1,9 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AuthProvider } from '@asgardeo/auth-react';
+import dynamic from 'next/dynamic';
 import { asgardeoConfig } from '@/config/asgardeo';
 
+// Dynamically import AuthProvider to avoid SSR issues
+const AuthProvider = dynamic(
+    () => import('@asgardeo/auth-react').then((mod) => ({ default: mod.AuthProvider })),
+    { ssr: false }
+);
 
 interface ClientAuthProviderProps {
     children: React.ReactNode;
@@ -16,7 +21,7 @@ export default function ClientAuthProvider({ children }: ClientAuthProviderProps
         setMounted(true);
     }, []);
 
-    if (!mounted) {
+    if (!mounted || typeof window === 'undefined') {
         return <div>Loading...</div>;
     }
 

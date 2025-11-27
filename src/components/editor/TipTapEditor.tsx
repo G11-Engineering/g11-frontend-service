@@ -290,9 +290,11 @@ export function TipTapEditor({
               <ActionIcon
                 variant={editor.isActive('link') ? 'filled' : 'subtle'}
                 onClick={() => {
-                  const url = window.prompt('Enter URL:');
-                  if (url) {
-                    editor.chain().focus().setLink({ href: url }).run();
+                  if (typeof window !== 'undefined') {
+                    const url = window.prompt('Enter URL:');
+                    if (url) {
+                      editor.chain().focus().setLink({ href: url }).run();
+                    }
                   }
                 }}
               >
