@@ -9,7 +9,7 @@ export const theme = createTheme({
       '#ffd4b3',
       '#ffc085',
       '#ffa94d',
-      '#ff8c00', // Softer WSO2 Orange
+      '#ff8c00', // Softer G11 Orange
       '#e67e00',
       '#cc7000',
       '#b36200',
@@ -25,7 +25,7 @@ export const theme = createTheme({
       '#4d4d4d',
       '#333333',
       '#2a2a2a',
-      '#231F20', // Primary WSO2 Black
+      '#231F20', // Primary G11 Black
     ],
     'wso2-blue': [
       '#f0f9ff',

@@ -11,7 +11,7 @@ export function Navigation() {
   return (
     <Box
       style={{
-        background: 'linear-gradient(135deg, #ff8c00 0%, #e67e00 100%)', // Softer WSO2 Orange
+        background: 'linear-gradient(135deg, #ff8c00 0%, #e67e00 100%)', // Softer G11 Orange
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 2px 20px rgba(255, 140, 0, 0.08)', // Softer shadow
       }}
@@ -33,11 +33,11 @@ export function Navigation() {
                 fontSize: '18px',
               }}
             >
-              W
+              G
             </div>
             <Box>
               <Text size="xl" fw={700} c="white" component={Link} href="/" style={{ textDecoration: 'none' }}>
-                WSO2 Blog Platform
+                G11 Blog
               </Text>
               <Text size="xs" c="white" opacity={0.8}>
                 Enterprise Content & Stories

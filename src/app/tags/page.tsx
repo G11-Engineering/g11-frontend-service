@@ -16,7 +16,7 @@ export default function TagsPage() {
 
   // Sample tags data for demonstration
   const sampleTags = [
-    { id: '1', name: 'WSO2', slug: 'wso2', description: 'WSO2 platform and products', usage_count: 45, color: '#ff8c00' },
+    { id: '1', name: 'G11', slug: 'g11', description: 'G11 platform and products', usage_count: 45, color: '#ff8c00' },
     { id: '2', name: 'API Gateway', slug: 'api-gateway', description: 'API Gateway solutions and patterns', usage_count: 32, color: '#3B82F6' },
     { id: '3', name: 'Microservices', slug: 'microservices', description: 'Microservices architecture and design', usage_count: 38, color: '#8B5CF6' },
     { id: '4', name: 'Integration', slug: 'integration', description: 'Enterprise integration solutions', usage_count: 28, color: '#10B981' },
@@ -32,9 +32,9 @@ export default function TagsPage() {
 
   // Sample posts data for demonstration
   const samplePosts = [
-    { id: '1', title: 'Getting Started with WSO2 API Manager', excerpt: 'Learn the basics of API management with WSO2', tags: ['wso2', 'api-gateway'], view_count: 1250, published_at: '2024-01-15' },
+    { id: '1', title: 'Getting Started with G11 API Manager', excerpt: 'Learn the basics of API management with G11', tags: ['g11', 'api-gateway'], view_count: 1250, published_at: '2024-01-15' },
     { id: '2', title: 'Microservices Architecture Patterns', excerpt: 'Best practices for building microservices', tags: ['microservices', 'architecture'], view_count: 980, published_at: '2024-01-12' },
-    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with WSO2 Identity Server', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10' },
+    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with G11 Identity Server', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10' },
     { id: '4', title: 'Enterprise Integration Patterns', excerpt: 'Common patterns for enterprise integration', tags: ['integration', 'enterprise'], view_count: 650, published_at: '2024-01-08' },
     { id: '5', title: 'DevOps Best Practices', excerpt: 'Streamlining your development workflow', tags: ['devops', 'automation'], view_count: 890, published_at: '2024-01-05' },
     { id: '6', title: 'Security in API Management', excerpt: 'Securing your APIs with proper authentication', tags: ['security', 'api'], view_count: 1100, published_at: '2024-01-03' },

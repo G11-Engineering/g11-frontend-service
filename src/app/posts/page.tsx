@@ -20,14 +20,14 @@ export default function PostsPage() {
 
   // Sample posts data for demonstration
   const samplePosts = [
-    { id: '1', title: 'Getting Started with WSO2 API Manager', excerpt: 'Learn the basics of API management with WSO2', category: 'API Management', tags: ['wso2', 'api-gateway'], view_count: 1250, published_at: '2024-01-15', author: 'John Doe', featured_image_url: null },
+    { id: '1', title: 'Getting Started with G11 API Manager', excerpt: 'Learn the basics of API management with G11', category: 'API Management', tags: ['g11', 'api-gateway'], view_count: 1250, published_at: '2024-01-15', author: 'John Doe', featured_image_url: null },
     { id: '2', title: 'Microservices Architecture Patterns', excerpt: 'Best practices for building microservices', category: 'Microservices', tags: ['microservices', 'architecture'], view_count: 980, published_at: '2024-01-12', author: 'Jane Smith', featured_image_url: null },
-    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with WSO2 Identity Server', category: 'Identity & Access', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10', author: 'Mike Johnson', featured_image_url: null },
+    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with G11 Identity Server', category: 'Identity & Access', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10', author: 'Mike Johnson', featured_image_url: null },
     { id: '4', title: 'Enterprise Integration Patterns', excerpt: 'Common patterns for enterprise integration', category: 'Integration', tags: ['integration', 'enterprise'], view_count: 650, published_at: '2024-01-08', author: 'Sarah Wilson', featured_image_url: null },
     { id: '5', title: 'DevOps Best Practices', excerpt: 'Streamlining your development workflow', category: 'DevOps', tags: ['devops', 'automation'], view_count: 890, published_at: '2024-01-05', author: 'David Brown', featured_image_url: null },
     { id: '6', title: 'Security in API Management', excerpt: 'Securing your APIs with proper authentication', category: 'Security', tags: ['security', 'api'], view_count: 1100, published_at: '2024-01-03', author: 'Lisa Davis', featured_image_url: null },
     { id: '7', title: 'Cloud Deployment Strategies', excerpt: 'Best practices for cloud deployment', category: 'Cloud', tags: ['cloud', 'deployment'], view_count: 720, published_at: '2024-01-01', author: 'Tom Wilson', featured_image_url: null },
-    { id: '8', title: 'Data Analytics with WSO2', excerpt: 'Implementing analytics solutions', category: 'Analytics', tags: ['analytics', 'data'], view_count: 580, published_at: '2023-12-28', author: 'Emma Taylor', featured_image_url: null },
+    { id: '8', title: 'Data Analytics with G11', excerpt: 'Implementing analytics solutions', category: 'Analytics', tags: ['analytics', 'data'], view_count: 580, published_at: '2023-12-28', author: 'Emma Taylor', featured_image_url: null },
   ];
 
   // Sample categories data
@@ -44,7 +44,7 @@ export default function PostsPage() {
 
   // Sample tags data
   const sampleTags = [
-    { id: '1', name: 'WSO2', slug: 'wso2' },
+    { id: '1', name: 'G11', slug: 'g11' },
     { id: '2', name: 'API Gateway', slug: 'api-gateway' },
     { id: '3', name: 'Microservices', slug: 'microservices' },
     { id: '4', name: 'Integration', slug: 'integration' },
@@ -97,7 +97,7 @@ export default function PostsPage() {
             All Posts
           </Title>
           <Text size="lg" ta="center" c="wso2-black.6" maw={600}>
-            Discover all published content from the WSO2 community.
+            Discover all published content from the G11 community.
           </Text>
         </Stack>
 

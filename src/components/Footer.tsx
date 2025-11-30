@@ -37,11 +37,11 @@ export function Footer() {
               <Group gap="xs">
                 <IconBookmark size={24} color="#ff8c00" />
                 <Text size="lg" fw={700} c="white">
-                  WSO2 Blog Platform
+                  G11 Blog
                 </Text>
               </Group>
               <Text size="sm" c="dimmed" style={{ maxWidth: 300 }}>
-                Enterprise Content & Stories Platform. Share your insights, technical knowledge, and innovative solutions with the WSO2 community.
+                Enterprise Content & Stories Platform. Share your insights, technical knowledge, and innovative solutions with the G11 community.
               </Text>
               <Group gap="md" mt="xs">
                 <Anchor
@@ -72,7 +72,7 @@ export function Footer() {
                   <IconBrandLinkedin size={20} />
                 </Anchor>
                 <Anchor
-                  href="mailto:support@wso2.com"
+                  href="mailto:support@g11.com"
                   c="dimmed"
                   className="footer-link"
                 >
@@ -130,17 +130,17 @@ export function Footer() {
                 Resources
               </Text>
               <Anchor
-                href="https://wso2.com"
+                href="https://g11.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 c="dimmed"
                 size="sm"
                 className="footer-link"
               >
-                WSO2 Website
+                G11 Website
               </Anchor>
               <Anchor
-                href="https://docs.wso2.com"
+                href="https://docs.g11.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 c="dimmed"
@@ -150,7 +150,7 @@ export function Footer() {
                 Documentation
               </Anchor>
               <Anchor
-                href="https://wso2.com/support"
+                href="https://g11.com/support"
                 target="_blank"
                 rel="noopener noreferrer"
                 c="dimmed"
@@ -215,10 +215,10 @@ export function Footer() {
           {/* Copyright */}
           <Group justify="space-between" wrap="wrap">
             <Text size="sm" c="dimmed">
-              © {currentYear} WSO2 Blog Platform. All rights reserved.
+              © {currentYear} G11 Blog. All rights reserved.
             </Text>
             <Text size="sm" c="dimmed">
-              Built with ❤️ by the WSO2 Community
+              Built with ❤️ by the G11 Community
             </Text>
           </Group>
         </Stack>

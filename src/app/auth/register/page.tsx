@@ -63,7 +63,7 @@ export default function RegisterPage() {
               </ThemeIcon>
               <div style={{ textAlign: 'center' }}>
                 <Title order={1} c="white" size="2.5rem" fw={700}>
-                  Join WSO2 Blog
+                  Join G11 Blog
                 </Title>
                 <Text c="white" size="lg" opacity={0.9}>
                   Create your account via Asgardeo SSO
@@ -89,7 +89,7 @@ export default function RegisterPage() {
                   Create Your Account
                 </Title>
                 <Text c="dimmed" size="md" mt="xs">
-                  Secure registration powered by WSO2 Asgardeo
+                  Secure registration powered by G11 Asgardeo
                 </Text>
               </div>
 

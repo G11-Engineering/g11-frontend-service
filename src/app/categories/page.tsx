@@ -29,9 +29,9 @@ export default function CategoriesPage() {
 
   // Sample posts data for demonstration
   const samplePosts = [
-    { id: '1', title: 'Getting Started with WSO2 API Manager', excerpt: 'Learn the basics of API management with WSO2', categoryId: '1', tags: ['wso2', 'api-gateway'], view_count: 1250, published_at: '2024-01-15' },
+    { id: '1', title: 'Getting Started with G11 API Manager', excerpt: 'Learn the basics of API management with G11', categoryId: '1', tags: ['g11', 'api-gateway'], view_count: 1250, published_at: '2024-01-15' },
     { id: '2', title: 'Microservices Architecture Patterns', excerpt: 'Best practices for building microservices', categoryId: '4', tags: ['microservices', 'architecture'], view_count: 980, published_at: '2024-01-12' },
-    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with WSO2 Identity Server', categoryId: '3', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10' },
+    { id: '3', title: 'Identity and Access Management', excerpt: 'Implementing IAM solutions with G11 Identity Server', categoryId: '3', tags: ['identity', 'security'], view_count: 750, published_at: '2024-01-10' },
     { id: '4', title: 'Enterprise Integration Patterns', excerpt: 'Common patterns for enterprise integration', categoryId: '2', tags: ['integration', 'enterprise'], view_count: 650, published_at: '2024-01-08' },
     { id: '5', title: 'DevOps Best Practices', excerpt: 'Streamlining your development workflow', categoryId: '5', tags: ['devops', 'automation'], view_count: 890, published_at: '2024-01-05' },
     { id: '6', title: 'Security in API Management', excerpt: 'Securing your APIs with proper authentication', categoryId: '6', tags: ['security', 'api'], view_count: 1100, published_at: '2024-01-03' },

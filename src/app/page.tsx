@@ -26,10 +26,10 @@ export default function HomePage() {
             </ThemeIcon>
           </Center>
           <Title order={1} size="3rem" ta="center" c="wso2-black.9">
-            WSO2 Blog Platform
+            G11 Blog
           </Title>
           <Text size="lg" ta="center" c="wso2-black.6" maw={600}>
-            Discover enterprise insights, technical stories, and innovative solutions from the WSO2 community.
+            Discover enterprise insights, technical stories, and innovative solutions from the G11 community.
           </Text>
           <Group>
             <Button 
@@ -97,7 +97,7 @@ export default function HomePage() {
                       </Group>
                       
                       <Text size="xs" c="dimmed" lineClamp={2} mb="sm">
-                        This is a sample trending post description that shows how content would appear in the WSO2 blog platform.
+                        This is a sample trending post description that shows how content would appear in the G11 blog.
                       </Text>
                     </div>
                     
@@ -165,7 +165,7 @@ export default function HomePage() {
                     </Group>
                     
                     <Text size="sm" c="dimmed" lineClamp={3}>
-                      This is a sample latest post description that demonstrates the content structure of the WSO2 blog platform.
+                      This is a sample latest post description that demonstrates the content structure of the G11 blog.
                     </Text>
                     
                     <Group justify="space-between">
@@ -249,7 +249,7 @@ export default function HomePage() {
           </Title>
           <Group gap="sm">
             {[
-              'WSO2', 'API Gateway', 'Microservices', 'Integration', 'Identity',
+              'G11', 'API Gateway', 'Microservices', 'Integration', 'Identity',
               'Security', 'DevOps', 'Cloud', 'Enterprise', 'Open Source'
             ].map((tag, i) => (
               <Badge
@@ -282,7 +282,7 @@ export default function HomePage() {
               Ready to Share Your Story?
             </Title>
             <Text c="white" ta="center" maw={500} opacity={0.9}>
-              Join the WSO2 community and share your technical insights, experiences, and innovative solutions.
+              Join the G11 community and share your technical insights, experiences, and innovative solutions.
             </Text>
             <Group>
               <Button 
