@@ -10,6 +10,7 @@ interface UsePostsParams {
 }
 
 export function usePosts(params: UsePostsParams = {}) {
+    console.log("USE POSTS CALLED", params);
   return useQuery({
     queryKey: ['posts', params],
     queryFn: async () => {
@@ -29,7 +30,7 @@ export function usePosts(params: UsePostsParams = {}) {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`http://localhost:3002/api/posts?${searchParams.toString()}`, {
+      const response = await fetch(`/api/posts?${searchParams.toString()}`, {
         headers,
       });
       if (!response.ok) {
@@ -204,7 +205,7 @@ export function usePostBySlug(slug: string | undefined) {
       if (!slug) return null;
       
       // First, get the post ID from the list
-      const listResponse = await fetch(`http://localhost:3002/api/posts?status=published`);
+      const listResponse = await fetch(`/api/posts?status=published`);
       if (!listResponse.ok) {
         throw new Error('Failed to fetch posts');
       }
