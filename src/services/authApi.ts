@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { services } from '@/config/appConfig';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_USER_SERVICE_URL || 'http://localhost:3001';
+const API_BASE_URL = services.user.baseUrl;
 
 const api = axios.create({
   baseURL: API_BASE_URL,

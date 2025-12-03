@@ -13,6 +13,7 @@ import { useCategories } from '@/hooks/useCategories';
 import { useTags } from '@/hooks/useTags';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from 'react-query';
+import { getApiUrl } from '@/config/appConfig';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPhoto, IconX } from '@tabler/icons-react';
 import { Image } from '@mantine/core';
@@ -32,7 +33,7 @@ export default function EditPostPage() {
     queryKey: ['post', slug],
     queryFn: async () => {
       // First, get all posts to find the post ID by slug
-      const postsResponse = await fetch('http://localhost:3002/api/posts?status=published');
+      const postsResponse = await fetch(`${getApiUrl.posts()}?status=published`);
       const postsData = await postsResponse.json();
       const foundPost = postsData.posts?.find((p: any) => p.slug === slug);
       
@@ -47,7 +48,7 @@ export default function EditPostPage() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${foundPost.id}`, { headers });
+      const response = await fetch(getApiUrl.posts(`/${foundPost.id}`), { headers });
       if (!response.ok) {
         throw new Error('Failed to fetch post');
       }

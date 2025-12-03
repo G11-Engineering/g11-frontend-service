@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { services } from '@/config/appConfig';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_CONTENT_SERVICE_URL || 'http://localhost:3002';
+const API_BASE_URL = services.content.baseUrl;
 console.log('Content API Base URL:', API_BASE_URL);
 
 const api = axios.create({

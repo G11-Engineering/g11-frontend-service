@@ -13,6 +13,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState, useEffect } from 'react';
 import { useUploadMedia } from '@/hooks/useMedia';
 import { notifications } from '@mantine/notifications';
+import { getMediaUploadUrl } from '@/config/appConfig';
 import { 
   IconBold, 
   IconItalic, 
@@ -110,7 +111,7 @@ export function TipTapEditor({
         // Use file_path if available (for S3), otherwise construct URL
         const uploadedFile = result.files[0];
         const imageUrl = uploadedFile.file_path || 
-                        `${process.env.NEXT_PUBLIC_MEDIA_SERVICE_URL || 'http://localhost:3003'}/uploads/${uploadedFile.filename}`;
+                        getMediaUploadUrl(uploadedFile.filename);
         editor?.chain().focus().setImage({ src: imageUrl }).run();
       }
     } catch (error) {

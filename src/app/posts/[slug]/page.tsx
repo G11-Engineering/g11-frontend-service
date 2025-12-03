@@ -10,6 +10,7 @@ import { usePostBySlug, usePublishPost, useDeletePost, useUpdatePost } from '@/h
 import { useComments, useCreateComment, useLikeComment } from '@/hooks/useComments';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
+import { getApiUrl } from '@/config/appConfig';
 // TipTap editor saves HTML, not Markdown, so we render HTML directly
 
 export default function PostPage() {
@@ -46,7 +47,7 @@ export default function PostPage() {
   useEffect(() => {
     if (post?.id) {
       // Increment view count
-      fetch(`http://localhost:3002/api/posts/${post.id}/views`, {
+      fetch(getApiUrl.posts(`/${post.id}/views`), {
         method: 'POST',
       }).catch(console.error);
     }

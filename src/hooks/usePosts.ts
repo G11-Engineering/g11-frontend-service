@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { getApiUrl } from '@/config/appConfig';
 
 interface UsePostsParams {
   status?: string;
@@ -29,7 +30,7 @@ export function usePosts(params: UsePostsParams = {}) {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`http://localhost:3002/api/posts?${searchParams.toString()}`, {
+      const response = await fetch(`${getApiUrl.posts()}?${searchParams.toString()}`, {
         headers,
       });
       if (!response.ok) {
@@ -68,7 +69,7 @@ export function useCreatePost() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch('http://localhost:3002/api/posts', {
+      const response = await fetch(getApiUrl.posts(), {
         method: 'POST',
         headers,
         body: JSON.stringify(data),
@@ -102,7 +103,7 @@ export function usePublishPost() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${postId}/publish`, {
+      const response = await fetch(getApiUrl.posts(`/${postId}/publish`), {
         method: 'POST',
         headers,
       });
@@ -135,7 +136,7 @@ export function useUpdatePost() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${postId}`, {
+      const response = await fetch(getApiUrl.posts(`/${postId}`), {
         method: 'PUT',
         headers,
         body: JSON.stringify(data),
@@ -181,7 +182,7 @@ export function usePost(postId: string | undefined) {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${postId}`, {
+      const response = await fetch(getApiUrl.posts(`/${postId}`), {
         headers,
       });
       
@@ -204,7 +205,7 @@ export function usePostBySlug(slug: string | undefined) {
       if (!slug) return null;
       
       // First, get the post ID from the list
-      const listResponse = await fetch(`http://localhost:3002/api/posts?status=published`);
+      const listResponse = await fetch(`${getApiUrl.posts()}?status=published`);
       if (!listResponse.ok) {
         throw new Error('Failed to fetch posts');
       }
@@ -222,7 +223,7 @@ export function usePostBySlug(slug: string | undefined) {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${foundPost.id}`, {
+      const response = await fetch(getApiUrl.posts(`/${foundPost.id}`), {
         headers,
       });
       
@@ -250,7 +251,7 @@ export function useDeletePost() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://localhost:3002/api/posts/${postId}`, {
+      const response = await fetch(getApiUrl.posts(`/${postId}`), {
         method: 'DELETE',
         headers,
       });

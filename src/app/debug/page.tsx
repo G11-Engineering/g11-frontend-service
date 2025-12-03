@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Container, Stack, Title, Text, Button, Card, Group } from '@mantine/core';
+import { getApiUrl } from '@/config/appConfig';
 
 export default function DebugPage() {
   const [posts, setPosts] = useState(null);
@@ -12,7 +13,7 @@ export default function DebugPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:3002/api/posts?status=published');
+      const response = await fetch(`${getApiUrl.posts()}?status=published`);
       const data = await response.json();
       console.log('Direct API call result:', data);
       setPosts(data);
