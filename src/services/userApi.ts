@@ -1,3 +1,33 @@
+export interface User {
+  id: string;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  role: 'admin' | 'editor' | 'author' | 'reader';
+  avatar_url?: string;
+  bio?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface UsersResponse {
+  users: User[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}
+
+export interface UpdateUserData {
+  firstName: string;
+  lastName: string;
+  role: string;
+  isActive: boolean;
+}
+
 export const userApi = {
   getUsers: async (params?: {
     page?: number;
