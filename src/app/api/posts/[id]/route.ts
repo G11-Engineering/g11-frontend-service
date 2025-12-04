@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { services } from "@/config/appConfig";
 
 interface Params { params: { id: string } }
 

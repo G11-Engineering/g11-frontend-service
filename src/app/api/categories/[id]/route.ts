@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { services } from '@/config/appConfig';
 
-type RouteParams = {
+type Params = {
   params: {
     id: string;
   };
