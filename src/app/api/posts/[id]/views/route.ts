@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { services } from '@/config/appConfig';
 
-export async function GET(req: Request) {
+interface Params { params: { id: string } }
+
+export async function GET(req: Request, { params }: Params) {
   try {
-    const { searchParams } = new URL(req.url);
-    const url = `${services.content.baseUrl}/api/posts?${searchParams.toString()}`;
+    const url = `${services.content.baseUrl}/api/posts/${params.id}/views/`;
 
     const res = await fetch(url);
     const data = await res.json();
@@ -12,7 +13,7 @@ export async function GET(req: Request) {
     return NextResponse.json(data);
 
   } catch (err) {
-    console.error("Error in /api/posts route:", err);
+    console.error("Error in /api/posts/${params.id}/views/ route:", err);
 
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Unknown Error" },
@@ -21,8 +22,8 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
-  const body = await req.json();
+export async function POST(req: Request, { params }: Params) {
+  const url = `${services.content.baseUrl}/api/posts/${params.id}/views/`;
 
   // Forward relevant headers
   const headers: HeadersInit = {
@@ -33,12 +34,12 @@ export async function POST(req: Request) {
     headers["Authorization"] = authHeader;
   }
 
-  const res = await fetch(`${services.content.baseUrl}/api/posts`, {
+  const res = await fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
   });
-
   const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+    
+  return NextResponse.json(data);
 }
+

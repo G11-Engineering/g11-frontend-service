@@ -11,7 +11,6 @@ interface UsePostsParams {
 }
 
 export function usePosts(params: UsePostsParams = {}) {
-    console.log("USE POSTS CALLED", params);
   return useQuery({
     queryKey: ['posts', params],
     queryFn: async () => {
@@ -31,7 +30,7 @@ export function usePosts(params: UsePostsParams = {}) {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`${getApiUrl.posts()}?${searchParams.toString()}`, {
+      const response = await fetch(getApiUrl.posts("?" + searchParams.toString()), {
         headers,
       });
       if (!response.ok) {

@@ -15,7 +15,7 @@ export default function DebugPage() {
 
     try {
       // Only call the Next.js API route
-      const response = await fetch('/api/posts?status=published');
+      const response = await fetch(getApiUrl.posts('?status=published'));
       const data = await response.json();
 
       if (response.ok) {
