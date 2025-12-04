@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { services } from '@/config/appConfig';
 
-export async function GET(req: Request, { params }: Params) {
-  const url = `${services.category.baseUrl}/api/categories?${params.id}/hierarchy`;
+export async function GET(
+    req: Request,
+    { params }: { params: { id: string } }
+) {
+  const url = `${services.category.baseUrl}/api/categories/${params.id}/hierarchy`;
 
   const res = await fetch(url, {
     headers: {
@@ -18,7 +21,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const body = await req.json();
-  const url = `${services.category.baseUrl}/api/categories?${params.id}/hierarchy`;
+  const url = `${services.category.baseUrl}/api/categories/${params.id}/hierarchy`;
 
   const res = await fetch(url, {
       method: "PUT",

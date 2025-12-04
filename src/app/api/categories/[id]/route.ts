@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { services } from '@/config/appConfig';
 
+type RouteParams = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(req: Request, { params }: Params) {
-  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories/${params.id}`;
 
   const res = await fetch(url, {
     headers: {
@@ -16,7 +22,7 @@ export async function GET(req: Request, { params }: Params) {
 
 
 export async function PUT(req: Request, { params }: Params) {
-  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories/${params.id}`;
   const body = await req.json();
 
   const res = await fetch(url, {
@@ -33,7 +39,7 @@ export async function PUT(req: Request, { params }: Params) {
 }
 
 export async function DELETE(req: Request, { params }: Params) {
-  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories/${params.id}`;
 
   const res = await fetch(url, {
     method: "DELETE",
