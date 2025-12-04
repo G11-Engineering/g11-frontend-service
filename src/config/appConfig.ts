@@ -134,7 +134,7 @@ export const getApiUrl = {
     const base = config.services.content.baseUrl;
     const apiPath = config.services.content.apiPath;
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${base}${apiPath}${config.paths.posts}${cleanPath}`;
+    return `${apiPath}${config.paths.posts}${cleanPath}`;
   },
 
   // Media Service

@@ -10,43 +10,73 @@ const api = axios.create({
   },
 });
 
-// Add token to requests
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
 export const tagApi = {
   getTags: async (params: any = {}) => {
-    const response = await api.get('/api/tags', { params });
-    return response.data;
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`/api/tags?${query}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch tags");
+    return res.json();
   },
 
   getTag: async (id: string) => {
-    const response = await api.get(`/api/tags/${id}`);
-    return response.data;
+    const res = await fetch(`/api/tags/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch tag");
+    return res.json();
   },
 
   createTag: async (data: any) => {
-    const response = await api.post('/api/tags', data);
-    return response.data;
+    const res = await fetch(`/api/tags`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to create tag");
+    return res.json();
   },
 
   updateTag: async (id: string, data: any) => {
-    const response = await api.put(`/api/tags/${id}`, data);
-    return response.data;
+    const res = await fetch(`/api/tags/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to update tag");
+    return res.json();
   },
 
   deleteTag: async (id: string) => {
-    const response = await api.delete(`/api/tags/${id}`);
-    return response.data;
+    const res = await fetch(`/api/tags/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to delete tag");
+    return res.json();
   },
 
-  getPopularTags: async (limit = 20) => {
-    const response = await api.get('/api/tags/popular', { params: { limit } });
-    return response.data;
+  getPopularTags: async (limit: number = 20) => {
+    const res = await fetch(`/api/tags/popular?limit=${limit}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch popular tags");
+    return res.json();
   },
 };
+

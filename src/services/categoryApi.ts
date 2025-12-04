@@ -21,28 +21,61 @@ api.interceptors.request.use((config) => {
 
 export const categoryApi = {
   getCategories: async (params: any = {}) => {
-    const response = await api.get('/api/categories', { params });
-    return response.data;
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`/api/categories?${query}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch categories");
+    return res.json();
   },
 
   getCategory: async (id: string) => {
-    const response = await api.get(`/api/categories/${id}`);
-    return response.data;
+   const res = await fetch(`/api/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch category");
+    return res.json();
   },
 
   createCategory: async (data: any) => {
-    const response = await api.post('/api/categories', data);
-    return response.data;
+    const res = await fetch(`/api/categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to create category");
+    return res.json();
   },
 
   updateCategory: async (id: string, data: any) => {
-    const response = await api.put(`/api/categories/${id}`, data);
-    return response.data;
+    const res = await fetch(`/api/categories/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to update category");
+    return res.json();
   },
 
   deleteCategory: async (id: string) => {
-    const response = await api.delete(`/api/categories/${id}`);
-    return response.data;
+    const res = await fetch(`/api/categories/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to delete category");
+    return res.json();
   },
 
   getCategoryHierarchy: async (id: string) => {

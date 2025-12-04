@@ -30,7 +30,7 @@ export function usePosts(params: UsePostsParams = {}) {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`${getApiUrl.posts()}?${searchParams.toString()}`, {
+      const response = await fetch(getApiUrl.posts("?" + searchParams.toString()), {
         headers,
       });
       if (!response.ok) {

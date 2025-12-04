@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { categoryApi } from '@/services/categoryApi';
 import { notifications } from '@mantine/notifications';
+import { getApiUrl } from '@/config/appConfig';
 
 interface UseCategoriesParams {
   search?: string;
