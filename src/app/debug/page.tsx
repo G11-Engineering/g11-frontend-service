@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Stack, Title, Text, Button, Card } from '@mantine/core';
+import { Container, Stack, Title, Text, Button, Card, Group } from '@mantine/core';
+import { getApiUrl } from '@/config/appConfig';
 
 export default function DebugPage() {
   const [posts, setPosts] = useState(null);

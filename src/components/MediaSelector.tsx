@@ -5,6 +5,7 @@ import { Modal, Button, Grid, Image, Text, Group, TextInput, FileButton, Stack, 
 import { useMediaFiles, useUploadMedia } from '@/hooks/useMedia';
 import { IconUpload, IconX, IconPhoto, IconCheck } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
+import { getMediaUploadUrl } from '@/config/appConfig';
 
 interface MediaSelectorProps {
   opened: boolean;
@@ -41,7 +42,7 @@ export function MediaSelector({ opened, onClose, onSelect, title = 'Select Media
 
       if (result.files && result.files.length > 0) {
         const fileUrl = result.files[0].file_path || 
-                       `${process.env.NEXT_PUBLIC_MEDIA_SERVICE_URL || 'http://localhost:3003'}/uploads/${result.files[0].filename}`;
+                       getMediaUploadUrl(result.files[0].filename);
         onSelect(fileUrl);
         setSelectedUrl(null);
         onClose();
@@ -106,7 +107,7 @@ export function MediaSelector({ opened, onClose, onSelect, title = 'Select Media
             <Grid>
               {imageFiles.map((file: any) => {
                 const imageUrl = file.file_path || 
-                               `${process.env.NEXT_PUBLIC_MEDIA_SERVICE_URL || 'http://localhost:3003'}/uploads/${file.filename}`;
+                               getMediaUploadUrl(file.filename);
                 const isSelected = selectedUrl === imageUrl;
 
                 return (
