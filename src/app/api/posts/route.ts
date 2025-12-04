@@ -6,7 +6,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const url = `${services.content.baseUrl}/api/posts?${searchParams.toString()}`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: {
+        Authorization: req.headers.get("authorization") || "",
+      },
+    });
     const data = await res.json();
     
     return NextResponse.json(data);
@@ -24,18 +28,12 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const body = await req.json();
 
-  // Forward relevant headers
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
-  const authHeader = req.headers.get("authorization");
-  if (authHeader) {
-    headers["Authorization"] = authHeader;
-  }
-
   const res = await fetch(`${services.content.baseUrl}/api/posts`, {
     method: "POST",
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: req.headers.get("authorization") || "",
+    },
     body: JSON.stringify(body),
   });
 

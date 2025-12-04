@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
-
-interface Params { params: { id: string } }
+import { NextResponse } from 'next/server';
+import { services } from '@/config/appConfig';
 
 export async function GET(req: Request, { params }: Params) {
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
 
   const res = await fetch(url, {
     headers: {
@@ -15,9 +14,9 @@ export async function GET(req: Request, { params }: Params) {
   return NextResponse.json(data, { status: res.status });
 }
 
+
 export async function PUT(req: Request, { params }: Params) {
-  // Forward relevant headers
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
   const body = await req.json();
 
   const res = await fetch(url, {
@@ -34,7 +33,7 @@ export async function PUT(req: Request, { params }: Params) {
 }
 
 export async function DELETE(req: Request, { params }: Params) {
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.category.baseUrl}/api/categories?${params.id}`;
 
   const res = await fetch(url, {
     method: "DELETE",
@@ -47,4 +46,3 @@ export async function DELETE(req: Request, { params }: Params) {
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });
 }
-

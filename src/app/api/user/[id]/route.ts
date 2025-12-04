@@ -1,23 +1,28 @@
+// src/app/api/users/[id]/route.ts
 import { NextResponse } from "next/server";
+import { services } from "@/config/appConfig";
 
-interface Params { params: { id: string } }
+interface Params {
+  params: { id: string };
+}
 
+// GET: fetch a user by ID
 export async function GET(req: Request, { params }: Params) {
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.user.baseUrl}/api/users/${params.id}`;
 
   const res = await fetch(url, {
     headers: {
-      "Content-Type": "application/json",
       Authorization: req.headers.get("authorization") || "",
     },
   });
+
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });
 }
 
+// PUT: update a user
 export async function PUT(req: Request, { params }: Params) {
-  // Forward relevant headers
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.user.baseUrl}/api/users/${params.id}`;
   const body = await req.json();
 
   const res = await fetch(url, {
@@ -33,8 +38,9 @@ export async function PUT(req: Request, { params }: Params) {
   return NextResponse.json(data, { status: res.status });
 }
 
+// DELETE: delete a user
 export async function DELETE(req: Request, { params }: Params) {
-  const url = `${services.content.baseUrl}/api/posts/${params.id}`;
+  const url = `${services.user.baseUrl}/api/users/${params.id}`;
 
   const res = await fetch(url, {
     method: "DELETE",
