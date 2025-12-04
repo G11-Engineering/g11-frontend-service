@@ -130,7 +130,6 @@ export default function UsersPage() {
     },
     validate: {
       firstName: (value) => (!value ? 'First name is required' : null),
-      lastName: (value) => (!value ? 'Last name is required' : null),
     },
   });
 
@@ -329,7 +328,6 @@ export default function UsersPage() {
             />
             <TextInput
               label="Last Name"
-              required
               {...editForm.getInputProps('lastName')}
             />
             <Select
