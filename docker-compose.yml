@@ -88,7 +88,7 @@ services:
 
   # Category Service
   category-service:
-    image: jasonmishi/g11-category-service:latest
+    image: jasonmishi/g11-category-service:v1.0.3
     ports:
       - "3004:3004"
     environment:
