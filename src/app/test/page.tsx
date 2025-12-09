@@ -1,23 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { Container, Stack, Title, Button, Text, Card, Group } from '@mantine/core';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function TestPage() {
-  const { user, isAuthenticated, login, logout } = useAuth();
-  const [loading, setLoading] = useState(false);
-
-  const handleTestLogin = async () => {
-    setLoading(true);
-    try {
-      await login('test@example.com', 'password123');
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { user, isAuthenticated, asgardeoSignIn, logout } = useAuth();
 
   return (
     <Container size="md" py="xl">
@@ -38,8 +25,8 @@ export default function TestPage() {
             
             <Group>
               {!isAuthenticated ? (
-                <Button onClick={handleTestLogin} loading={loading}>
-                  Test Login
+                <Button onClick={asgardeoSignIn}>
+                  Login with Asgardeo
                 </Button>
               ) : (
                 <Button onClick={logout} color="red">

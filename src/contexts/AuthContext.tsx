@@ -28,8 +28,6 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
   asgardeoSignIn: () => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
@@ -38,28 +36,33 @@ interface AuthContextType {
   isAuthor: boolean;
 }
 
-interface RegisterData {
-  email: string;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Intercept Asgardeo authentication state
   const { state: asgardeoState, signIn: asgardeoSignIn, signOut: asgardeoSignOut, getIDToken } = useAsgardeoAuth();
 
-  const [user, setUser] = useState<User | null>(null);
+  // Initialize user state synchronously from localStorage for instant UI rendering
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser);
+        } catch (error) {
+          console.error('Failed to parse stored user:', error);
+        }
+      }
+    }
+    return null;
+  });
   const [loading, setLoading] = useState(true);
   const [processingAuth, setProcessingAuth] = useState(false);
   const router = useRouter();
 
-  // Load user from localStorage on mount
+  // Verify token and refresh user data from backend
   useEffect(() => {
-    const loadUser = async () => {
+    const verifyUser = async () => {
       // Only access localStorage in browser environment
       if (typeof window === 'undefined') {
         setLoading(false);
@@ -67,32 +70,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const token = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
 
-      if (token && storedUser) {
+      if (token) {
         try {
-          // First set user from localStorage immediately for faster UI update
-          setUser(JSON.parse(storedUser));
-          setLoading(false);
-
-          // Then verify token and get fresh data from backend
+          // Verify token and get fresh data from backend
           const userData = await authApi.getProfile();
           setUser(userData);
+          localStorage.setItem('user', JSON.stringify(userData));
         } catch (error) {
-          console.error('Failed to load user profile:', error);
+          console.error('Failed to verify user token:', error);
           if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
           }
           setUser(null);
-          setLoading(false);
         }
-      } else {
-        setLoading(false);
       }
+      setLoading(false);
     };
 
-    loadUser();
+    verifyUser();
   }, []);
 
   // Automatically handle Asgardeo authentication completion
@@ -194,50 +191,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     handleAsgardeoAuth();
   }, [asgardeoState.isAuthenticated, user, processingAuth, getIDToken]);
 
-  const login = async (email: string, password: string) => {
-    try {
-      const response = await authApi.login(email, password);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('token', response.token);
-      }
-      setUser(response.user);
-      notifications.show({
-        title: 'Success',
-        message: 'Logged in successfully',
-        color: 'green',
-      });
-    } catch (error: any) {
-      notifications.show({
-        title: 'Error',
-        message: error.response?.data?.error?.message || 'Login failed',
-        color: 'red',
-      });
-      throw error;
-    }
-  };
-
-  const register = async (data: RegisterData) => {
-    try {
-      const response = await authApi.register(data);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('token', response.token);
-      }
-      setUser(response.user);
-      notifications.show({
-        title: 'Success',
-        message: 'Account created successfully',
-        color: 'green',
-      });
-    } catch (error: any) {
-      notifications.show({
-        title: 'Error',
-        message: error.response?.data?.error?.message || 'Registration failed',
-        color: 'red',
-      });
-      throw error;
-    }
-  };
-
   const handleAsgardeoSignIn = async () => {
     try {
       await asgardeoSignIn();
@@ -296,8 +249,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         loading,
-        login,
-        register,
         asgardeoSignIn: handleAsgardeoSignIn,
         logout,
         isAuthenticated,
