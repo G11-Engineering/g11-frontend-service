@@ -98,6 +98,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Automatically handle Asgardeo authentication completion
   useEffect(() => {
     const handleAsgardeoAuth = async () => {
+      console.log('🔄 Auth check running...', {
+        isAuthenticated: asgardeoState.isAuthenticated,
+        hasUser: !!user,
+        processingAuth,
+      });
+
       // Only process if:
       // 1. Asgardeo says we're authenticated
       // 2. We don't have a local user yet
@@ -108,37 +114,79 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         try {
           // Get ID token from Asgardeo
+          console.log('🔑 Requesting ID token from Asgardeo...');
           const idToken = await getIDToken();
 
           if (idToken) {
-            console.log('✅ Received Asgardeo ID token, exchanging with backend...');
+            console.log('✅ Received Asgardeo ID token:', idToken.substring(0, 50) + '...');
+            console.log('📤 Sending ID token to backend for exchange...');
 
             // Exchange Asgardeo token for our local JWT
             const response = await authApi.asgardeoLogin(idToken);
 
+            console.log('📦 Backend response:', {
+              hasToken: !!response?.token,
+              hasUser: !!response?.user,
+              response: response,
+            });
+
+            if (!response || !response.token || !response.user) {
+              throw new Error('Invalid response from backend - missing token or user');
+            }
+
             // Store the local JWT token and user
             if (typeof window !== 'undefined') {
+              console.log('💾 Storing token in localStorage...');
               localStorage.setItem('token', response.token);
+              console.log('✅ Token stored, length:', response.token.length);
+              
+              console.log('💾 Storing user in localStorage...');
               localStorage.setItem('user', JSON.stringify(response.user));
+              console.log('✅ User stored:', response.user);
+
+              // Verify storage
+              const storedToken = localStorage.getItem('token');
+              const storedUser = localStorage.getItem('user');
+              console.log('✅ Verification - token exists:', !!storedToken);
+              console.log('✅ Verification - user exists:', !!storedUser);
             }
 
             setUser(response.user);
+            console.log('✅ User state updated');
 
             notifications.show({
               title: 'Success',
               message: 'Signed in successfully with Asgardeo',
               color: 'green',
             });
+
+            console.log('🎉 Authentication complete!');
+          } else {
+            console.error('❌ No ID token received from Asgardeo');
+            throw new Error('No ID token received from Asgardeo');
           }
         } catch (error: any) {
           console.error('❌ Authentication error:', error);
+          console.error('❌ Error stack:', error.stack);
           notifications.show({
             title: 'Authentication Error',
-            message: error.response?.data?.error?.message || 'Failed to complete authentication',
+            message: error.message || error.response?.data?.error?.message || 'Failed to complete authentication',
             color: 'red',
+            autoClose: 10000,
           });
         } finally {
           setProcessingAuth(false);
+          console.log('🏁 Processing auth completed');
+        }
+      } else {
+        if (!asgardeoState.isAuthenticated) {
+          console.log('⏸️ Asgardeo not authenticated yet');
+        }
+        if (user) {
+          console.log('⏸️ User already exists');
+        }
+        if (processingAuth) {
+          console.log('⏸️ Already processing auth');
         }
       }
     };
