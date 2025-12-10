@@ -193,15 +193,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleAsgardeoSignIn = async () => {
     try {
+      console.log('🔄 Initiating Asgardeo sign-in...');
       await asgardeoSignIn();
+      console.log('✅ Asgardeo sign-in initiated successfully.');
     } catch (error) {
       console.error('❌ Failed to initiate Asgardeo sign-in:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred during sign-in.';
       notifications.show({
-        title: 'Error',
-        message: 'Failed to initiate sign in',
+        title: 'Sign-In Error',
+        message: errorMessage,
         color: 'red',
+        autoClose: 10000,
       });
-      throw error;
+      throw error; // Re-throw the error for further handling if needed
     }
   };
 
