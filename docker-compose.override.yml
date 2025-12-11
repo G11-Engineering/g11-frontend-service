@@ -30,9 +30,7 @@ services:
       - ./jest.config.js:/app/jest.config.js
       - ./jest.setup.js:/app/jest.setup.js
       - ./next-env.d.ts:/app/next-env.d.ts
-      - frontend-node-modules:/app/node_modules
       - frontend-next:/app/.next
 
 volumes:
-  frontend-node-modules:
   frontend-next:

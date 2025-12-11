@@ -89,14 +89,6 @@ const config = {
     },
   },
 
-  // Asgardeo Authentication Configuration
-  asgardeo: {
-    clientId: getEnv('NEXT_PUBLIC_ASGARDEO_CLIENT_ID', 'Y4Yrhdn2PcIxQRLfWYDdEycYTfUa'),
-    baseUrl: getEnv('NEXT_PUBLIC_ASGARDEO_BASE_URL', 'https://api.asgardeo.io/t/g11engineering'),
-    redirectUrl: getEnv('NEXT_PUBLIC_ASGARDEO_REDIRECT_URL', 'http://localhost:3000'),
-    scope: getEnv('NEXT_PUBLIC_ASGARDEO_SCOPE', 'openid profile email groups').split(' '),
-  },
-
   // API Paths (can be customized)
   paths: {
     posts: getEnv('NEXT_PUBLIC_API_PATH_POSTS', '/posts'),
@@ -192,7 +184,6 @@ export default config;
 export const {
   frontend,
   services,
-  asgardeo,
   paths,
 } = config;
 

@@ -3,18 +3,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
-import dynamic from 'next/dynamic';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { authApi } from '@/services/authApi';
-
-// Dynamically import Asgardeo hook to avoid SSR issues
-const useAsgardeoAuth = typeof window !== 'undefined' 
-  ? require('@asgardeo/auth-react').useAuthContext 
-  : () => ({
-      state: null,
-      signIn: async () => {},
-      signOut: async () => {},
-      getIDToken: async () => null,
-    });
 
 interface User {
   id: string;
@@ -39,211 +29,96 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Intercept Asgardeo authentication state
-  const { state: asgardeoState, signIn: asgardeoSignIn, signOut: asgardeoSignOut, getIDToken } = useAsgardeoAuth();
-
-  // Initialize user state synchronously from localStorage for instant UI rendering
-  const [user, setUser] = useState<User | null>(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        try {
-          return JSON.parse(storedUser);
-        } catch (error) {
-          console.error('Failed to parse stored user:', error);
-        }
-      }
-    }
-    return null;
-  });
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [processingAuth, setProcessingAuth] = useState(false);
   const router = useRouter();
 
-  // Verify token and refresh user data from backend
   useEffect(() => {
-    const verifyUser = async () => {
-      // Only access localStorage in browser environment
-      if (typeof window === 'undefined') {
-        setLoading(false);
-        return;
-      }
+    const syncUser = async () => {
+      if (status === 'loading') return;
 
-      const token = localStorage.getItem('token');
-
-      if (token) {
+      if (status === 'authenticated' && session) {
         try {
-          // Verify token and get fresh data from backend
-          const userData = await authApi.getProfile();
-          setUser(userData);
-          localStorage.setItem('user', JSON.stringify(userData));
+          // @ts-ignore
+          const accessToken = session.accessToken;
+          
+          if (accessToken) {
+            // Store the local JWT token
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('token', accessToken);
+            }
+
+            // Construct user from session
+            const sessionUser: User = {
+              id: session.user.id || '',
+              email: session.user.email || '',
+              username: session.user.username || '',
+              firstName: session.user.given_name || '',
+              lastName: session.user.family_name || '',
+              role: session.user.role || 'user',
+            };
+
+            if (sessionUser) {
+              // Store the user
+              if (typeof window !== 'undefined') {
+                localStorage.setItem('user', JSON.stringify(sessionUser));
+              }
+              setUser(sessionUser);
+            }
+          }
         } catch (error) {
-          console.error('Failed to verify user token:', error);
+          console.error('Failed to sync user:', error);
+          // Clear local storage on error
           if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
           }
           setUser(null);
         }
+      } else {
+        // Clear local storage if not authenticated
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
+        setUser(null);
       }
       setLoading(false);
     };
 
-    verifyUser();
-  }, []);
-
-  // Automatically handle Asgardeo authentication completion
-  useEffect(() => {
-    const handleAsgardeoAuth = async () => {
-      console.log('🔄 Auth check running...', {
-        isAuthenticated: asgardeoState.isAuthenticated,
-        hasUser: !!user,
-        processingAuth,
-      });
-
-      // Only process if:
-      // 1. Asgardeo says we're authenticated
-      // 2. We don't have a local user yet
-      // 3. We're not already processing
-      if (asgardeoState.isAuthenticated && !user && !processingAuth) {
-        setProcessingAuth(true);
-        console.log('✅ Asgardeo authentication detected, exchanging tokens...');
-
-        try {
-          // Get ID token from Asgardeo
-          console.log('🔑 Requesting ID token from Asgardeo...');
-          const idToken = await getIDToken();
-
-          if (idToken) {
-            console.log('✅ Received Asgardeo ID token:', idToken.substring(0, 50) + '...');
-            console.log('📤 Sending ID token to backend for exchange...');
-
-            // Exchange Asgardeo token for our local JWT
-            const response = await authApi.asgardeoLogin(idToken);
-
-            console.log('📦 Backend response:', {
-              hasToken: !!response?.token,
-              hasUser: !!response?.user,
-              response: response,
-            });
-
-            if (!response || !response.token || !response.user) {
-              throw new Error('Invalid response from backend - missing token or user');
-            }
-
-            // Store the local JWT token and user
-            if (typeof window !== 'undefined') {
-              console.log('💾 Storing token in localStorage...');
-              localStorage.setItem('token', response.token);
-              console.log('✅ Token stored, length:', response.token.length);
-              
-              console.log('💾 Storing user in localStorage...');
-              localStorage.setItem('user', JSON.stringify(response.user));
-              console.log('✅ User stored:', response.user);
-
-              // Verify storage
-              const storedToken = localStorage.getItem('token');
-              const storedUser = localStorage.getItem('user');
-              console.log('✅ Verification - token exists:', !!storedToken);
-              console.log('✅ Verification - user exists:', !!storedUser);
-            }
-
-            setUser(response.user);
-            console.log('✅ User state updated');
-
-            notifications.show({
-              title: 'Success',
-              message: 'Signed in successfully with Asgardeo',
-              color: 'green',
-            });
-
-            console.log('🎉 Authentication complete!');
-          } else {
-            console.error('❌ No ID token received from Asgardeo');
-            throw new Error('No ID token received from Asgardeo');
-          }
-        } catch (error: any) {
-          console.error('❌ Authentication error:', error);
-          console.error('❌ Error stack:', error.stack);
-          notifications.show({
-            title: 'Authentication Error',
-            message: error.message || error.response?.data?.error?.message || 'Failed to complete authentication',
-            color: 'red',
-            autoClose: 10000,
-          });
-        } finally {
-          setProcessingAuth(false);
-          console.log('🏁 Processing auth completed');
-        }
-      } else {
-        if (!asgardeoState.isAuthenticated) {
-          console.log('⏸️ Asgardeo not authenticated yet');
-        }
-        if (user) {
-          console.log('⏸️ User already exists');
-        }
-        if (processingAuth) {
-          console.log('⏸️ Already processing auth');
-        }
-      }
-    };
-
-    handleAsgardeoAuth();
-  }, [asgardeoState.isAuthenticated, user, processingAuth, getIDToken]);
+    syncUser();
+  }, [session, status]);
 
   const handleAsgardeoSignIn = async () => {
     try {
-      console.log('🔄 Initiating Asgardeo sign-in...');
-      await asgardeoSignIn();
-      console.log('✅ Asgardeo sign-in initiated successfully.');
+      await signIn('asgardeo');
     } catch (error) {
-      console.error('❌ Failed to initiate Asgardeo sign-in:', error);
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred during sign-in.';
+      console.error('Sign in failed:', error);
       notifications.show({
-        title: 'Sign-In Error',
-        message: errorMessage,
+        title: 'Error',
+        message: 'Failed to sign in',
         color: 'red',
-        autoClose: 10000,
       });
-      throw error; // Re-throw the error for further handling if needed
     }
   };
 
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      // Sign out from Asgardeo
-      await asgardeoSignOut();
-
-      // Clear local storage
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      }
-
-      // Clear local state
+      await signOut({ redirect: false });
       setUser(null);
-
-      // Redirect to home
       router.push('/');
-
       notifications.show({
         title: 'Success',
         message: 'Logged out successfully',
         color: 'blue',
       });
     } catch (error) {
-      console.error('❌ Logout error:', error);
-      // Even if Asgardeo logout fails, clear local state
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      }
-      setUser(null);
-      router.push('/');
+      console.error('Logout failed:', error);
     }
   };
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = status === 'authenticated';
   const isAdmin = user?.role === 'admin';
   const isEditor = ['admin', 'editor'].includes(user?.role || '');
   const isAuthor = ['admin', 'editor', 'author'].includes(user?.role || '');
@@ -252,9 +127,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        loading,
+        loading: status === 'loading' || loading,
         asgardeoSignIn: handleAsgardeoSignIn,
-        logout,
+        logout: handleLogout,
         isAuthenticated,
         isAdmin,
         isEditor,
