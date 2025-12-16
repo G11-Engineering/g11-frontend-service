@@ -1,7 +1,7 @@
 name: npm test
 
 on:
-  pull_request:
+  push:
     branches:
       - '**'
   workflow_call:
