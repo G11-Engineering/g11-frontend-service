@@ -5,8 +5,11 @@ on:
       - main
   pull_request:
 jobs:
+  test:
+    uses: ./.github/workflows/npm_test.yml
   build:
     name: Build
+    needs: test
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
