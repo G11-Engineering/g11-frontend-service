@@ -14,8 +14,11 @@ env:
   REGISTRY_IMAGE: jasonmishi/g11-frontend-service
 
 jobs:
+  test-and-build:
+    uses: ./.github/workflows/build.yml
   build:
     name: Build ${{ matrix.platform }}
+    needs: test-and-build
     strategy:
       fail-fast: false
       matrix:
