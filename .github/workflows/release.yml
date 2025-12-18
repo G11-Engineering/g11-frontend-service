@@ -14,11 +14,11 @@ env:
   REGISTRY_IMAGE: jasonmishi/g11-frontend-service
 
 jobs:
-  test-and-build:
+  test-and-scan:
     uses: ./.github/workflows/build.yml
-  build:
+  build_multiplatform:
     name: Build ${{ matrix.platform }}
-    needs: test-and-build
+    needs: test-and-scan
     strategy:
       fail-fast: false
       matrix:
@@ -83,11 +83,11 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  merge:
+  merge_and_push:
     name: Create manifest and push
     runs-on: ubuntu-latest
     needs:
-      - build
+      - build_multiplatform
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4

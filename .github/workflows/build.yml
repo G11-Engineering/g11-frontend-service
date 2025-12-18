@@ -3,11 +3,11 @@ on:
   pull_request:
   workflow_call:
 jobs:
-  test:
+  run_tests:
     uses: ./.github/workflows/npm_test.yml
-  build:
+  build_and_scan:
     name: Build
-    needs: test
+    needs: run_tests
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code

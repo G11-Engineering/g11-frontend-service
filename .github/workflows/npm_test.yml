@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test_pull_request:
+  run_npm_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
