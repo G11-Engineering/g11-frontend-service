@@ -1,67 +1,104 @@
-import axios from 'axios';
-import { services } from '@/config/appConfig';
-
-const API_BASE_URL = services.comment.baseUrl;
-
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Add token to requests
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
 export const commentApi = {
   getComments: async (params: any = {}) => {
-    const response = await api.get('/api/comments', { params });
-    return response.data;
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`/api/comments?${query}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch comments");
+    return res.json();
   },
 
   getComment: async (id: string) => {
-    const response = await api.get(`/api/comments/${id}`);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch comment");
+    return res.json();
   },
 
   createComment: async (data: any) => {
-    const response = await api.post('/api/comments', data);
-    return response.data;
+    const res = await fetch(`/api/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to create comment");
+    return res.json();
   },
 
   updateComment: async (id: string, data: any) => {
-    const response = await api.put(`/api/comments/${id}`, data);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to update comment");
+    return res.json();
   },
 
   deleteComment: async (id: string) => {
-    const response = await api.delete(`/api/comments/${id}`);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to delete comment");
+    return res.json();
   },
 
   moderateComment: async (id: string, action: string, reason?: string) => {
-    const response = await api.post(`/api/comments/${id}/moderate`, { action, reason });
-    return response.data;
+    const res = await fetch(`/api/comments/${id}/moderate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+      body: JSON.stringify({ action, reason }),
+    });
+    if (!res.ok) throw new Error("Failed to moderate comment");
+    return res.json();
   },
 
   likeComment: async (id: string) => {
-    const response = await api.post(`/api/comments/${id}/like`);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to like comment");
+    return res.json();
   },
 
   getCommentLikes: async (id: string) => {
-    const response = await api.get(`/api/comments/${id}/likes`);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}/likes`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch comment likes");
+    return res.json();
   },
 
   getCommentModeration: async (id: string) => {
-    const response = await api.get(`/api/comments/${id}/moderation`);
-    return response.data;
+    const res = await fetch(`/api/comments/${id}/moderation`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch comment moderation");
+    return res.json();
   },
 };

@@ -103,7 +103,7 @@ export function usePublishPost() {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(getApiUrl.posts(`/${postId}/publish`), {
+      const response = await fetch(`/api/posts/${postId}/publish`, {
         method: 'POST',
         headers,
       });
