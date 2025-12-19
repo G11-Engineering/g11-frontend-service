@@ -1,12 +1,13 @@
 name: build
 on:
-  push:
-    branches:
-      - main
   pull_request:
+  workflow_call:
 jobs:
-  build:
+  run_tests:
+    uses: ./.github/workflows/npm_test.yml
+  build_and_scan:
     name: Build
+    needs: run_tests
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
